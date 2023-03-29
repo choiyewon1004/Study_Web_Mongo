@@ -1,0 +1,114 @@
+
+{% include 'header.html'%}
+
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+		<!-- left column -->
+		<div class="col-md-12">
+			<!-- general form elements -->
+			<div class="box box-primary">
+				<div class="box-header">
+					<h3 class="box-title">READ BOARD</h3>
+				</div>
+				<!-- /.box-header -->
+
+<div class="box-body">
+	<div class="form-group">
+		<label for="exampleInputEmail1">Title</label>
+		<input 	type="text"
+				name='title' class="form-control" value="{{board.title}}"
+				readonly="readonly"
+				id = 'title' >
+	</div>
+	<div class="form-group">
+		<label for="exampleInputPassword1">Content</label>
+		<textarea class="form-control"
+				  name="content"
+				  id="content"
+				  rows="3"  readonly="readonly" >{{board.content}}</textarea>
+	</div>
+	<div class="form-group">
+		<label for="exampleInputEmail1">Writer</label> <input type="text"
+			name="writer" class="form-control" value="{{board.writer.user_id}}"
+			readonly="readonly">
+	</div>
+</div>
+<!-- /.box-body -->
+
+<div class="box-footer">
+	<button id="listBtn" type="button" class="btn btn-primary">전체보기</button>
+
+	{% if board.writer.user_id == user_id %}
+	<button id="updateBtn" type="button" class="btn btn-warning">수정</button>
+	<button id="deleteBtn" type="button" class="btn btn-danger">삭제</button>
+	{% endif %}
+</div>
+
+
+<!-- 리플시작-->
+<div class="row">
+	<div class="col-md-12">
+		<div class="box box-success">
+			<div class="box-header">
+				<h3 class="box-title">ADD TIMELINE</h3>
+			</div>
+			<div class="box-body">
+				<label for="writer">Writer</label>
+				<input type="text" class="form-control" id="time_writer" value="ooo" readonly/>
+				<label for="add_text">ADD Text</label>
+				<input type="text" class="form-control" id="time_txt"/>
+			</div>
+			<div class="box-footer">
+				<button id="replyBtn">ADD</button>
+			</div>
+		</div>
+		<ul class="timeline">
+			<li class="time-label">
+				<span class="bg-green">timeline list<small id="cnt">[00]</small></span>
+			</li>
+		</ul>
+		<ul id="reply_result">
+			<li class="time-label">
+				{{ ooo }}&nbsp;&nbsp;&nbsp;
+
+					<a href="javascript:removeReply()" class="btn btn-primary btn-xs">X</a>
+
+			</li>
+
+		</ul>
+	</div>
+</div>
+
+
+<script>
+	var id = {{board.id}}
+$(document).ready(function(){
+	$('#listBtn').click(function(){
+		location.href = '../list/'
+	})
+
+	$('#deleteBtn').click(function(){
+		location.href = '../delete/?id='+id
+	})
+});
+
+
+</script>
+
+
+
+
+			</div>
+			<!-- /.box -->
+		</div>
+		<!--/.col (left) -->
+
+	</div>
+	<!-- /.row -->
+</section>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+{% include 'footer.html'%}
