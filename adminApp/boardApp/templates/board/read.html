@@ -55,7 +55,7 @@
 			</div>
 			<div class="box-body">
 				<label for="writer">Writer</label>
-				<input type="text" class="form-control" id="time_writer" value="ooo" readonly/>
+				<input type="text" class="form-control" id="time_writer" value="{{user_id}}" readonly/>
 				<label for="add_text">ADD Text</label>
 				<input type="text" class="form-control" id="time_txt"/>
 			</div>
@@ -91,7 +91,29 @@ $(document).ready(function(){
 	$('#deleteBtn').click(function(){
 		location.href = '../delete/?id='+id
 	})
+
+	$('#updateBtn').click(function(){
+		var caption = $('#updateBtn').text()
+		if(caption =='수정'){
+			$('#title').prop('readonly',false)
+			$('#content').prop('readonly',false)
+			$('#updateBtn').text('수정확인')
+
+			var btn = "<button id='restBtn' class='btn btn-info' onclick='javascript:restBtn(this)'> 수정취소</button>"
+			$('.box-footer').append(btn)
+		}
+		if(caption == '수정확인'){
+			location.href = '../update/?id='+id+'&title='+$('#title').val()+'&content='+$('#content').val()
+		}
+	})
 });
+
+function restBtn(element){
+	$('#title').prop('readonly',true)
+	$('#content').prop('readonly',true)
+	$('#updateBtn').text('수정')
+	element.remove()
+}
 
 
 </script>

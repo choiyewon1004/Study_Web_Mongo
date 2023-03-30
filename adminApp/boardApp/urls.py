@@ -10,5 +10,8 @@ urlpatterns=[
     path('register/', views.register),
     path('view/', views.read),
     path('delete/', views.delete),
+    path('update/', views.update),
+    path('logout/', views.logout),
+    path('search/', views.search),
 
 ]

@@ -1,5 +1,12 @@
 {%include 'header.html' %}
 
+<style>
+.pagination {
+	display: flex;
+}
+</style>
+
+
 <!-- Main content -->
 <section class="content">
 	<div class="row">
@@ -52,8 +59,8 @@
 		<td><a href="../view?id={{board.id}}">{{board.title}}</a></td>
 		<!--<td>{{board.writer}}</td> -->
 		<td>{{board.writer.user_id}}</td>
-		<td>{{board.regdate}}</td>
-		<td>{{board.viewcount}}</td>
+		<td>{{board.regdate | date:"Y-m-d"}}</td>
+		<td><span class="badge bg-red">{{board.viewcount}}</span></td>
 	</tr>
 	{% endfor %}
 
@@ -62,10 +69,43 @@
 		<p><h3>No data in table !!</h3></p>
 {% endif %}
 
-
 				</div>
 				<!-- /.box-body -->
-				<div class="box-footer">Footer</div>
+				<div class="box-footer">
+					<!-- Pagination -->
+					<div style="text-align:center">
+						<div class="pagination">
+
+							<div style="width:35%; margin: 5px;">
+							{% if boards.has_previous %}
+								<a class="abutton" href="?page=1">맨 앞으로</a>
+								<a class="abutton" href="?page={{ boards.previous_page_number }}">이전</a>
+							{% endif %}
+							</div>
+
+							<div style="width:30%; margin: 5px;">
+							{% for page in boards.paginator.page_range %}
+								{% if page >= boards.number|add:-2 and page <= boards.number|add:2 %}
+								<span class="{% if page == boards.number %}current{% endif %}">
+									<a href="?page={{ page }}">{{ page}}</a>
+								</span>
+								{% elif page >= boards.number|add:-3 and page <= boards.number|add:3 %}
+									..
+								{% endif %}
+							{% endfor %}
+							</div>
+
+							<div style="width:35%; margin: 5px;">
+							{% if boards.has_next %}
+								<a class="abutton" href="?page={{ boards.next_page_number }}">다음</a>
+								<a class="abutton" href="?page={{ boards.paginator.num_pages }}">맨 뒤로</a>
+							{% endif %}
+							</div>
+
+						</div>
+					</div>
+
+				</div>
 				<!-- /.box-footer-->
 			</div>
 		</div>
@@ -84,8 +124,37 @@
 <script>
 
 	$(document).ready(function() {
+		$('#searchBtn').click(function(){
+			var type = $('#searchType').val()
+			var keyword = $('#searchKeyword').val()
 
+			$.ajax({
+				url : '../search/',
+				type : 'post',
+				data : {
+					'csrfmiddlewaretoken' : '{{csrf_token}}',
+					searchType : type ,
+					searchKeyword : keyword
+				},
+				dataType : 'json',
+				success : function(lst){
+					alert('call back success')
+					$('tbody').empty()
 
+					var txt = ''
+					$.each(lst , function(idx, board) {
+						txt += "<tr><td>"+board.id+"</td>"
+						txt += "<td><a href='../view?id="+board.id+"'>"+board.title+"</a></td>"
+						txt += "<td>"+board.writer+"</td>"
+						txt += "<td>"+board.regdate+"</td>"
+						txt += "<td><span class='badge bg-red'>"+board.viewcount+"</span></td></tr>"
+					})
+					alert(txt)
+					$('#tbody').html(txt)
+				}
+			})
+
+		})
 	})
 
 </script>
