@@ -106,6 +106,16 @@ $(document).ready(function(){
 			location.href = '../update/?id='+id+'&title='+$('#title').val()+'&content='+$('#content').val()
 		}
 	})
+
+	$('#replyBtn').click(function(){
+		writer = $('#time_writer').val()
+		txt = $('#time_txt').val()
+		id = $('#id').val()
+		alert(writer, txt, id)
+
+
+		//ajax 통신을 통ㅎ 데이터 전달하며 테이블에 입력 후 전체 검색을 통해 반환받은 데이터를 document에 출력
+	})
 });
 
 function restBtn(element){

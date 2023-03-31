@@ -97,6 +97,8 @@ def read(request) :
     board.viewcount = board.viewcount +1
     board.save()
 
+    # replys = reply_tbl.objects.filter(board_id = board.id)
+
     context = {'board':board}
     context['name'] = request.session['session_name']
     context['img'] = request.session['session_img']
